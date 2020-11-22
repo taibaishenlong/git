@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--配置service-->
+    <bean id="accountService" class="com.wangchao.service.impl.AccountServiceImpl">
+       <constructor-arg name="name" value="张三"></constructor-arg>
+       <constructor-arg name="age" value="18"></constructor-arg>
+       <constructor-arg name="birthday" ref="now"></constructor-arg>
+    </bean>
+
+    <bean id="now" class="java.util.Date"></bean>
+
+    <bean id="accountService2" class="com.wangchao.service.impl.AccountServiceImpl2">
+        <property name="name" value="李白"></property>
+        <property name="age" value="24"></property>
+        <property name="birthday" ref="now"></property>
+    </bean>
+    <!--配置dao-->
+    <bean id="accountDao" class="com.wangchao.dao.impl.AccountDaoImpl"/>
+
+    <!--配置复杂数据-->
+    <bean id="accountService3" class="com.wangchao.service.impl.AccountServiceImpl3">
+        <!--数组-->
+        <property name="myst">
+            <set>
+                <value>AAA</value>
+                <value>BBB</value>
+                <value>CCC</value>
+            </set>
+        </property>
+
+        <!--list集合-->
+        <property name="myList">
+            <array>
+                <value>AAA</value>
+                <value>BBB</value>
+                <value>CCC</value>
+            </array>
+        </property>
+        <!--set集合注入-->
+        <property name="mySet">
+            <list>
+                <value>AAA</value>
+                <value>BBB</value>
+                <value>CCC</value>
+            </list>
+        </property>
+
+        <!--map注入-->
+        <property name="myMap">
+            <props>
+                <prop key="testA">888</prop>
+                <prop key="testB">999</prop>
+            </props>
+        </property>
+
+        <!--properties数据注入-->
+        <property name="myProps">
+            <map>
+                <entry key="testC" value="KKK"></entry>
+                <entry key="testD">
+                    <value>HHH</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+</beans>

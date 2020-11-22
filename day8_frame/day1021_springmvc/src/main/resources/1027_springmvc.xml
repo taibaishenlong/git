@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans.xsd
+ http://www.springframework.org/schema/mvc
+ http://www.springframework.org/schema/mvc/spring-mvc.xsd
+ http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--配置创建sprig容器要扫描的包-->
+    <context:component-scan base-package="com.wangchao"></context:component-scan>
+    <!--配置视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/day21/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+    <!--前端控制器，哪些静态资源不拦截-->
+    <mvc:resources location="/css/" mapping="/css/**"/>
+    <mvc:resources location="/images/" mapping="/images/**"/>
+    <mvc:resources location="/js/" mapping="/js/**"/>
+    <!--配置异常处理器-->
+    <!--<bean id="sysExceptionResolver" class="com.wangchao.day1027.interrupt.SysExceptionResolver"></bean>-->
+
+    <!--配置拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!--拦截的方法-->
+            <mvc:mapping path="/day1027/my/**"/>
+            <!--<mvc:exclude-mapping path="/my/**"/>--><!--不拦截的方法-->
+            <!--拦截器对象-->
+            <bean  class="com.wangchao.day1027.interrupt.MyInterrupt1"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+    <!--开启spring对mvc注解的支持 ,如果没有数据转换器，可以不用加-->
+    <!--<mvc:annotation-driven></mvc:annotation-driven>-->
+    <mvc:annotation-driven></mvc:annotation-driven>
+</beans>

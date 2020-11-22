@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.wangchao.dao.AccountDao">
+    <!--查询所有-->
+    <select id="findAll" resultType="accountuser">
+        select a.*,u.username,u.address from account a,user u where a.user_id = u.id;
+    </select>
+
+    <!--在account中添加user对象 使用resultMap对象  一对一查询-->
+<!--    <resultMap id="accountMap" type="account">
+        <id property="acc_id" column="acc_id"/>
+        <result property="user_id" column="user_id"/>
+        <result property="money" column="money"/>
+        &lt;!&ndash;用于指定从表的引用实体类属性的&ndash;&gt;
+        <association property="user" javaType="user">
+            <id  property="id" column="id"/>
+            <result property="username" column="username"/>
+            <result property="birthday" column="birthday"/>
+            <result property="sex" column="sex"/>
+            <result property="address" column="address"/>
+        </association>
+    </resultMap>-->
+    <select id="findAllAcc" resultMap="accountMap">
+        select u.*, a.acc_id,a.user_id,a.money from account a,user u where a.user_id = u.id;
+    </select>
+
+    <!--一对多查询  一个用户对应多个账户-->
+    <resultMap id="userMap" type="user">
+        <id  property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="birthday" column="birthday"/>
+        <result property="sex" column="sex"/>
+        <result property="address" column="address"/>
+        <collection property="list" ofType="account">
+            <id property="acc_id" column="acc_id"/>
+            <result property="user_id" column="user_id"/>
+            <result property="money" column="money"/>
+        </collection>
+    </resultMap>
+    <!--配置一对多的查询操作-->
+    <select id="findAllUser" resultMap="userMap">
+        select u.*,a.acc_id,a.user_id,a.money from user u left outer join account a on u.id=a.user_id
+    </select>
+
+
+    <!--懒加载 一对多-->
+    <resultMap id="accountLazyMap" type="account">
+        <id property="acc_id" column="acc_id"/>
+        <result property="user_id" column="user_id"/>
+        <result property="money" column="money"/>
+        <!--用于指定从表的引用实体类属性的-->
+        <association property="user" javaType="user" select="com.wangchao.dao.UserDao.selectUserById" column="id">
+            <!--<id  property="id" column="id"/>
+            <result property="username" column="username"/>
+            <result property="birthday" column="birthday"/>
+            <result property="sex" column="sex"/>
+            <result property="address" column="address"/>-->
+        </association>
+    </resultMap>
+    <select id="findAllLazy" resultMap="accountLazyMap">
+        select * from account
+    </select>
+</mapper>
