@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--配置mybatis的环境-->
+    <environments default="mysql">
+        <environment id="mysql">
+            <!--配置事务类型-->
+            <transactionManager type="JDBC"></transactionManager>
+            <!--配置数据库的信息-->
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql:///java?serverTimezone=GMT%2B8"/>
+                <property name="username" value="root"/>
+                <property name="password" value="root"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!--<mappers>
+        <mapper resource="UserDao.xml"/>
+        //基于注解方式的映射  可以不用映射xml文件
+    </mappers>-->
+    <mappers>
+        <mapper class="com.wangchao.dao.UserDao"/>
+    </mappers>
+</configuration>
